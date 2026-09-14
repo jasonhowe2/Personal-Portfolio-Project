@@ -34,4 +34,4 @@ These results describe associations rather than causal effects.
 - `velocity_vs_ops.svg` — velocity and OPS visualization
 
 ## AI Transparency
-Generative AI was used as a coding and writing support tool during project development. It helped troubleshoot Python/API errors, explain code logic, improve organization and wording, and suggest ways to communicate findings. The student reviewed the code, calculations, visualizations, interpretations, and final written material.
+Generative AI was used as a coding and writing support tool during project development. It helped troubleshoot Python/API errors, explain code logic, improve organization and wording, and suggest ways to communicate findings. I reviewed the code, calculations, visualizations, interpretations, and final written material. AI was not used as a data source. 
