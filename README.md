@@ -24,10 +24,9 @@ These results describe associations rather than causal effects.
 ## Repository Files
 - `index.html` — portfolio homepage
 - `project.html` — full MLB project writeup
-- `resume.html` — public web version of my resume
+- `resume.html` — web resume
 - `styles.css` — site styling
-- `finalmlbproject.ipynb` — complete Python notebook
-- `MLB_Pitching_Hitting_EDA.ipynb` — updated project notebook
+- `finalmlbproject.ipynb` — Python notebook with the analysis
 - `PROJECT_WRITEUP.md` — project documentation
 - `CODE_REVIEW_GUIDE.md` — code review preparation
 - `velocity.csv` — four-seam velocity data
@@ -35,4 +34,4 @@ These results describe associations rather than causal effects.
 - `velocity_vs_ops.svg` — velocity and OPS visualization
 
 ## AI Transparency
-Generative AI was used as a coding and writing support tool during project development. It helped troubleshoot Python/API errors, explain code logic, improve organization and wording, and suggest ways to communicate findings. The student reviewed the code, calculations, visualizations, interpretations, and final written material before submission.
+Generative AI was used as a coding and writing support tool during project development. It helped troubleshoot Python/API errors, explain code logic, improve organization and wording, and suggest ways to communicate findings. The student reviewed the code, calculations, visualizations, interpretations, and final written material.
