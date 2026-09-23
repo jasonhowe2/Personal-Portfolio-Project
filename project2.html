@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MLB Hitting vs. Pitching: Predicting Team Wins | Jason Howe</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header>
+<nav>
+<a class="brand" href="index.html">JASON HOWE</a>
+<div class="navlinks">
+<a href="index.html#about">About</a>
+<a href="project.html">Project 01</a>
+<a href="project2.html">Project 02</a>
+<a href="resume.html">Resume</a>
+</div>
+</nav>
+</header>
+
+<main class="project-page">
+<section class="hero compact">
+<p class="eyebrow">PROJECT 02 • MACHINE LEARNING • PYTHON</p>
+<h1>MLB Hitting vs. Pitching: Predicting Team Wins</h1>
+<p class="lead">An end-to-end machine-learning project testing how well MLB team wins can be predicted from hitting statistics compared with pitching and run-prevention statistics.</p>
+<div class="buttons">
+<a class="button" href="https://github.com/jasonhowe2/Project2" target="_blank" rel="noopener noreferrer">View GitHub Repository</a>
+<a class="button secondary" href="https://github.com/jasonhowe2/Project2/blob/main/Project2_MLB_Hitting_vs_Pitching.ipynb" target="_blank" rel="noopener noreferrer">View Notebook</a>
+</div>
+</section>
+
+<section class="section">
+<h2>1. Machine-Learning Problem</h2>
+<h3>Research Question</h3>
+<p><strong>How well can MLB team wins be predicted using hitting statistics compared with pitching/run-prevention statistics?</strong></p>
+<p>The target variable is <strong>W (team wins)</strong>, so this is a <strong>regression</strong> problem. The unit of analysis is one MLB team in one season. The project compares hitting-only, pitching-only, and combined feature sets using two regression algorithms.</p>
+<p>This project predicts final-season wins from season-level statistics. It is a predictive analysis rather than a causal study, so the results should not be interpreted as proving that a particular type of performance causes wins.</p>
+</section>
+
+<section class="section">
+<h2>2. Context &amp; Supporting Research</h2>
+<p>Winning baseball teams need to create runs while also preventing opponents from scoring. Modern baseball analysis uses a combination of traditional statistics and rate-based measures to describe offensive and pitching performance. This project applies those ideas to a supervised-learning problem at the team-season level.</p>
+<p>The project uses credible baseball/statistical references for background and variable definitions:</p>
+<ol>
+<li>Baseball-Reference. (n.d.). <em>Major League Baseball statistics and history</em>. <a href="https://www.baseball-reference.com/" target="_blank" rel="noopener noreferrer">Baseball-Reference</a>.</li>
+<li>FanGraphs. (n.d.). <em>FanGraphs Library Glossary</em>. <a href="https://library.fangraphs.com/fangraphs-library-glossary/" target="_blank" rel="noopener noreferrer">FanGraphs</a>.</li>
+<li>Albert, J., &amp; Bennett, J. (2001). <em>Curve Ball: The Complete Guide to the Science of Baseball</em>. Copernicus.</li>
+</ol>
+</section>
+
+<section class="section">
+<h2>3. Dataset</h2>
+<p>The dataset comes from the Lahman Baseball Database <strong>Teams</strong> table. Each row represents one MLB team in one season.</p>
+<div class="table">
+<div><strong>Item</strong><strong>Project detail</strong></div>
+<div><span>Source</span><span><a href="https://github.com/corbtastik/lahman-baseball-db" target="_blank" rel="noopener noreferrer">Lahman Baseball Database</a></span></div>
+<div><span>Time period</span><span>2000–2025</span></div>
+<div><span>Observations</span><span>780 team-season records</span></div>
+<div><span>Unit of analysis</span><span>One MLB team in one season</span></div>
+<div><span>Target</span><span>W — team wins</span></div>
+<div><span>Task</span><span>Regression</span></div>
+</div>
+<p>The project uses rate statistics where appropriate so teams are compared using performance rates rather than simply accumulating more raw opportunities.</p>
+</section>
+
+<section class="section">
+<h2>4. Data Preparation</h2>
+<p>Python and pandas were used to load the team-season data and engineer the modeling variables. The selected predictors are numeric, so categorical encoding was not necessary. KNN requires variables to be on comparable scales, so the KNN models use <code>StandardScaler</code> inside a pipeline.</p>
+<h3>Engineered features</h3>
+<ul>
+<li><strong>Runs per game:</strong> R / G</li>
+<li><strong>Home runs per game:</strong> HR / G</li>
+<li><strong>On-base percentage:</strong> (H + BB + HBP) / (AB + BB + HBP + SF)</li>
+<li><strong>Slugging percentage:</strong> total bases / AB</li>
+<li><strong>Runs allowed per game:</strong> RA / G</li>
+<li><strong>ERA:</strong> earned run average from the Lahman dataset</li>
+<li><strong>Strikeouts per 9 innings:</strong> SOA converted from innings/outs and scaled to nine innings</li>
+</ul>
+<p>Missing values in the selected modeling columns are removed before the train/test split. The analysis also checks summary statistics and correlations before modeling to identify distributions and relationships that inform feature selection.</p>
+</section>
+
+<section class="section">
+<h2>5. Data Understanding &amp; Feature Selection</h2>
+<p>Exploratory analysis examines team wins against runs scored, runs allowed, and ERA, along with a correlation table for the selected predictors. The analysis treats the target as continuous, so class-imbalance analysis is not applicable.</p>
+<div class="findings">
+<div><strong>Hitting</strong><span>Runs/game, HR/game, OBP, and SLG capture run creation and offensive quality.</span></div>
+<div><strong>Pitching</strong><span>Runs allowed/game, ERA, and SO/9 capture run prevention and strikeout ability.</span></div>
+<div><strong>Rate-based</strong><span>Rates make teams more comparable across seasons with different game environments.</span></div>
+<div><strong>Combined</strong><span>The final feature set tests whether offense and run prevention add complementary information.</span></div>
+</div>
+</section>
+
+<section class="section">
+<h2>6. Training &amp; Testing Strategy</h2>
+<p>The data are separated chronologically:</p>
+<div class="table">
+<div><strong>Split</strong><strong>Seasons / observations</strong></div>
+<div><span>Training</span><span>2000–2022 — 690 team-season records</span></div>
+<div><span>Testing</span><span>2023–2025 — 90 team-season records</span></div>
+</div>
+<p>A chronological holdout keeps the most recent seasons unseen during model training. This is preferable to randomly mixing seasons because baseball performance environments can change over time. The test set is used only for final held-out evaluation, while scaling for KNN is fitted within the training data through a pipeline.</p>
+</section>
+
+<section class="section">
+<h2>7. Baseline Performance</h2>
+<p>The baseline predicts the <strong>mean training-set win total</strong> for every team in the test set. This establishes a simple reference point: a machine-learning model should improve on a constant mean prediction to demonstrate useful predictive value.</p>
+<p>The notebook calculates the baseline MAE, RMSE, and R² before comparing the two machine-learning models. This baseline is evaluated on exactly the same 2023–2025 test observations as the model results.</p>
+</section>
+
+<section class="section">
+<h2>8. Model Development &amp; Comparison</h2>
+<p>Two regression approaches were tested:</p>
+<ul>
+<li><strong>Linear Regression:</strong> provides a straightforward, interpretable linear benchmark.</li>
+<li><strong>K-Nearest Neighbors Regression (k = 7):</strong> can capture nonlinear relationships among similar team-seasons. Standardization is applied because KNN is distance-based.</li>
+</ul>
+<p>Each model was trained three ways: with hitting features only, pitching/run-prevention features only, and the combined feature set.</p>
+</section>
+
+<section class="section">
+<h2>9. Model Evaluation</h2>
+<p>The models are evaluated with three regression metrics. <strong>MAE</strong> is the average absolute prediction error in wins. <strong>RMSE</strong> is also measured in wins but gives more weight to larger errors. <strong>R²</strong> measures the proportion of variation explained relative to a mean-prediction baseline.</p>
+<div class="table">
+<div><strong>Model</strong><strong>Feature set</strong></div>
+<div><span>Linear Regression</span><span>Hitting — MAE 9.02, RMSE 10.57, R² 0.254</span></div>
+<div><span>Linear Regression</span><span>Pitching — MAE 8.11, RMSE 10.27, R² 0.295</span></div>
+<div><span>Linear Regression</span><span>Combined — MAE 7.92, RMSE 9.01, R² 0.458</span></div>
+<div><span>KNN (k=7)</span><span>Hitting — MAE 8.28, RMSE 10.27, R² 0.295</span></div>
+<div><span>KNN (k=7)</span><span>Pitching — MAE 7.85, RMSE 10.10, R² 0.318</span></div>
+<div><span>KNN (k=7)</span><span>Combined — MAE 6.32, RMSE 8.12, R² 0.559</span></div>
+</div>
+<p>Among the tested models and feature sets, the combined KNN model had the lowest held-out MAE and RMSE and the highest R². Pitching/run prevention also performed somewhat better than the selected hitting variables when each group was modeled separately.</p>
+</section>
+
+<section class="section">
+<h2>10. Model Interpretation &amp; Error Analysis</h2>
+<p>KNN does not provide ordinary linear coefficients, so interpretation focuses on held-out predictions, actual-versus-predicted comparisons, and the largest prediction errors. The notebook also fits a combined linear regression model so the direction of the linear coefficients can be inspected.</p>
+<p>The error-analysis table identifies the team-seasons with the largest absolute prediction errors. These cases help show where the selected statistics may be missing important information such as defense, baserunning, injuries, roster construction, park effects, bullpen usage, or schedule strength.</p>
+</section>
+
+<section class="section">
+<h2>11. Ethics, Limitations &amp; Real-World Use</h2>
+<ul>
+<li>The data are observational and aggregated at the team-season level, so the model does not establish causation.</li>
+<li>The selected variables do not capture every contributor to wins, including defense, baserunning, injuries, roster construction, payroll, park effects, and strength of schedule.</li>
+<li>The test period contains only three seasons, so performance could differ on another time period.</li>
+<li>The 2020 season had a shortened schedule, which is an additional limitation when comparing raw win totals across the full period.</li>
+<li>Incorrect predictions are relatively low-stakes in this educational project, but a real model used for betting, personnel, financial, or operational decisions could have greater consequences.</li>
+<li>Predictions should be treated as estimates rather than guarantees.</li>
+</ul>
+</section>
+
+<section class="section">
+<h2>12. Code &amp; AI Transparency</h2>
+<p><a class="button" href="https://github.com/jasonhowe2/Project2" target="_blank" rel="noopener noreferrer">GitHub Repository</a></p>
+<p><strong>AI disclosure:</strong> OpenAI ChatGPT (GPT-5.6 Luna) assisted with project planning, research-question refinement, code structure, model setup, interpretation, and written explanations. The student is responsible for reviewing and understanding the submitted code and results and for following course AI-use requirements.</p>
+</section>
+
+<section class="section">
+<h2>Conclusion</h2>
+<p>For the selected MLB team-season data, pitching/run prevention produced somewhat stronger standalone predictions of wins than the selected hitting variables, while combining hitting and pitching information produced the strongest results among the tested approaches. The final KNN model achieved an MAE of 6.32 wins, RMSE of 8.12 wins, and R² of 0.559 on the held-out 2023–2025 seasons. These results describe predictive performance rather than a causal effect of hitting or pitching on wins.</p>
+<p><a class="textlink" href="index.html">← Back to portfolio</a></p>
+</section>
+</main>
+<footer><p>© 2026 Jason Howe • Personal Portfolio</p></footer>
+</body>
+</html>
