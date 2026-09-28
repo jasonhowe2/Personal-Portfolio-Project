@@ -77,7 +77,7 @@
 <li><strong>ERA:</strong> earned run average from the Lahman dataset</li>
 <li><strong>Strikeouts per 9 innings:</strong> SOA converted from innings/outs and scaled to nine innings</li>
 </ul>
-<p>Missing values in the selected modeling columns are removed before the train/test split. The analysis also checks summary statistics and correlations before modeling to identify distributions and relationships that inform feature selection.</p>
+<p>Missing values in the selected modeling columns are checked before the train/test split; the 2000–2025 records have **0 missing values** in the raw variables required for the selected features and **0 duplicate team-season keys**. The analysis also checks summary statistics, correlations, and scatterplots to investigate distributions, relationships, and potential outliers. Because the target is numeric, class imbalance is not applicable.</p>
 </section>
 
 <section class="section">
@@ -105,7 +105,7 @@
 <section class="section">
 <h2>7. Baseline Performance</h2>
 <p>The baseline predicts the <strong>mean training-set win total</strong> for every team in the test set. This establishes a simple reference point: a machine-learning model should improve on a constant mean prediction to demonstrate useful predictive value.</p>
-<p>The notebook calculates the baseline MAE, RMSE, and R² before comparing the two machine-learning models. This baseline is evaluated on exactly the same 2023–2025 test observations as the model results.</p>
+<p>The notebook calculates the baseline MAE, RMSE, and R² before comparing the two machine-learning models. The baseline is **78.75 mean wins**, with **MAE 9.77, RMSE 12.44, and R² -0.033** on the 2023–2025 test set. This baseline is evaluated on exactly the same test observations as the model results.</p>
 </section>
 
 <section class="section">
@@ -146,7 +146,7 @@
 <li>The selected variables do not capture every contributor to wins, including defense, baserunning, injuries, roster construction, payroll, park effects, and strength of schedule.</li>
 <li>The test period contains only three seasons, so performance could differ on another time period.</li>
 <li>The 2020 season had a shortened schedule, which is an additional limitation when comparing raw win totals across the full period.</li>
-<li>Incorrect predictions are relatively low-stakes in this educational project, but a real model used for betting, personnel, financial, or operational decisions could have greater consequences.</li>
+<li>Because this is regression, errors are described as <strong>overpredictions</strong> or <strong>underpredictions</strong> rather than false positives or false negatives. Incorrect predictions are relatively low-stakes in this educational project, but a real model used for betting, personnel, financial, or operational decisions could have greater consequences.</li>
 <li>Predictions should be treated as estimates rather than guarantees.</li>
 </ul>
 </section>
